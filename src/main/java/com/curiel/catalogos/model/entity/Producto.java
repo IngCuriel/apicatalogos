@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +27,7 @@ public class Producto implements Serializable{
      * 
      */
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     Long id;
@@ -37,6 +39,9 @@ public class Producto implements Serializable{
     BigDecimal precio;
     
     BigDecimal costo;
+    
+    @ManyToOne
+    private Sucursal sucursal;
     
     @Column(name = "create_at")
     @Temporal(TemporalType.DATE)

@@ -1,33 +1,37 @@
 package com.curiel.catalogos.model.entity;
-import java.io.Serializable;
-  
+ import java.io.Serializable;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id; 
+import javax.persistence.Id;
+import javax.persistence.ManyToOne; 
 
 import com.curiel.catalogos.util.FechaEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class Sucursal extends FechaEntity implements Serializable{
+public class UnidadMedida  extends FechaEntity implements Serializable {
+    
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     Long id;
-    String nombre;
+    String clave;
     String descripcion;
     
-    
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Sucursal sucursal;
+  
+
 }
