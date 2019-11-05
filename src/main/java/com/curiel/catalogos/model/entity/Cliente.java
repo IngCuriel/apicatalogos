@@ -29,7 +29,7 @@ public class Cliente {
     @Column(length=100)
     String name;
     
-    @Column(length=50)
+    @Column(length=50,unique=true)
     String email;
     
     @Column(name = "create_at")

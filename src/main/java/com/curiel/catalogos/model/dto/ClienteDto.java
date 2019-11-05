@@ -1,12 +1,14 @@
 package com.curiel.catalogos.model.dto;
 
-import com.curiel.catalogos.util.AgenteDto;
  
-public class ClienteDto extends AgenteDto {
+import com.curiel.catalogos.util.AgenteDto;
 
-    public ClienteDto(Long id, String nombre, String email) {
-        super(id, nombre, email);
-     }
+ import lombok.NoArgsConstructor;
+
+ @NoArgsConstructor
+ public class ClienteDto extends AgenteDto {
+
+    
 
    
 

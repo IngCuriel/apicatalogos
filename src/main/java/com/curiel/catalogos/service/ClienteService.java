@@ -23,7 +23,7 @@ public class ClienteService implements GenericService<ClienteDto,Cliente, Long> 
     @Transactional(readOnly=true)
     public Set<ClienteDto> list() {
         Set<ClienteDto> clienteDtoSet=new HashSet<>(); 
-        clienteRepository.findAll().forEach(cliente-> clienteDtoSet.add(new ClienteDto(cliente.getId(), cliente.getName(),cliente.getEmail())));
+        clienteRepository.findAll().forEach(cliente-> clienteDtoSet.add(convertToDto(cliente)));
         return clienteDtoSet;
     }
 
@@ -51,7 +51,7 @@ public class ClienteService implements GenericService<ClienteDto,Cliente, Long> 
     public ClienteDto convertToDto(Cliente entity) {
            return  modelMapper.map(entity, ClienteDto.class);
     }
-
+    
     @Override
     public Cliente convertToEntity(ClienteDto dto) {
          return modelMapper.map(dto, Cliente.class);
