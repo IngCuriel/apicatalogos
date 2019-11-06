@@ -26,10 +26,6 @@ public class Producto extends GenericEntity implements Serializable{
      */
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    Long id;
-    
     String nombre;
     
     String decripcion;
@@ -41,7 +37,7 @@ public class Producto extends GenericEntity implements Serializable{
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursal;
     
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private UnidadMedida unidadMedida;
    
 }

@@ -28,6 +28,6 @@ public class Sucursal extends GenericEntity implements Serializable{
     Long id;
     String nombre;
     String descripcion;
-    
+     
     
 }
