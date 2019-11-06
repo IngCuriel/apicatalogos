@@ -60,6 +60,9 @@ public class MovimientoController implements GenericController<MovimientoDto, Lo
     @GetMapping("/cliente")
     public ResponseEntity<MovimientoDto> getByClienteProveedor(@RequestParam String  clienteProveedor) {
         return new ResponseEntity<>(movimientoService.getByClienteProveedor(clienteProveedor),HttpStatus.OK);
-    }  
+    }
+
+     
+     
 
 }

@@ -11,7 +11,7 @@ public interface GenericService<T,E,PK> {
    T save (T dto);
    
    T getById(PK id);
-      
+         
    T convertToDto(E entity);
    
    E convertToEntity(T dto);

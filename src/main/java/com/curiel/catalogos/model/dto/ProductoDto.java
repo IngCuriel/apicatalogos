@@ -15,4 +15,5 @@ public class ProductoDto {
     String decripcion;
     BigDecimal precio;
     BigDecimal costo;
+    
 }

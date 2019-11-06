@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.curiel.catalogos.model.dto.ClienteDto;
 import com.curiel.catalogos.service.ClienteService;
@@ -51,5 +52,7 @@ public class ClienteController implements GenericController<ClienteDto, Long> {
     @PutMapping
     public ResponseEntity<ClienteDto> update(ClienteDto dto) {
          return new ResponseEntity<>(clienteService.save(dto),HttpStatus.OK);
-    }    
+    }
+    
+    
 }

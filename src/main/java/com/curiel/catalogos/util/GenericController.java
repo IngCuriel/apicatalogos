@@ -11,7 +11,5 @@ public interface GenericController<T,PK> {
     
     ResponseEntity<T> update(T dto);
     
-    ResponseEntity<T> getById(PK id);
-    
- 
+    ResponseEntity<T> getById(PK id); 
 }

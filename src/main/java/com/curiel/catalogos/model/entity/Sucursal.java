@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id; 
 
-import com.curiel.catalogos.util.FechaEntity;
+import com.curiel.catalogos.util.GenericEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class Sucursal extends FechaEntity implements Serializable{
+public class Sucursal extends GenericEntity implements Serializable{
     /**
      * 
      */

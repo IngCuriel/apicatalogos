@@ -2,27 +2,25 @@ package com.curiel.catalogos.model.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import javax.persistence.OneToOne;
+import com.curiel.catalogos.util.GenericEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Producto implements Serializable{
+@EqualsAndHashCode(callSuper=false)
+public class Producto extends GenericEntity implements Serializable{
     /**
      * 
      */
@@ -40,16 +38,10 @@ public class Producto implements Serializable{
     
     BigDecimal costo;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursal;
     
-    @Column(name = "create_at")
-    @Temporal(TemporalType.DATE)
-    private Date createAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.createAt = new Date();
-    }
+    @OneToOne
+    private UnidadMedida unidadMedida;
    
 }

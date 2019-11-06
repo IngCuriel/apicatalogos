@@ -54,6 +54,12 @@ public class SucursalController implements GenericController<SucursalDto, Long> 
     public ResponseEntity<SucursalDto> getById(@PathVariable Long id) {
         return new ResponseEntity<>(sucursalService.getById(id),HttpStatus.OK);
     }
+
+     
+    public ResponseEntity<SucursalDto> updateStatus(Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
     
 

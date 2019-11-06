@@ -57,6 +57,11 @@ public class UnidadMedidaService implements GenericService<UnidadMedidaDto, Unid
         return unidadMedidaList;
     }
     
+    @Transactional
+    public int updateStatus(Long id,Long statusId) {
+       return unidadMedidaRepository.updateStatusId(id,statusId);
+    }
+    
     @Override
     public UnidadMedidaDto convertToDto(UnidadMedida entity) {
         return modelMapper.map(entity, UnidadMedidaDto.class);

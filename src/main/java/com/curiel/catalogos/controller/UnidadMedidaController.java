@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.curiel.catalogos.model.dto.UnidadMedidaDto;
 import com.curiel.catalogos.service.UnidadMedidaService;
@@ -58,6 +59,12 @@ public class UnidadMedidaController implements GenericController<UnidadMedidaDto
     @GetMapping("/sucursales/{id}/unidades")
     public ResponseEntity<Set<UnidadMedidaDto>> getBySucursalId(@PathVariable Long id) {
         return new ResponseEntity<>(unidadMedidaService.getBySucursalId(id),HttpStatus.OK);
+    }
+
+    @PutMapping("/unidades/{id}/")
+    public ResponseEntity<UnidadMedidaDto> updateStatus(@PathVariable Long id, @RequestParam Long  statusId) {
+         unidadMedidaService.updateStatus(id, statusId);
+         return new  ResponseEntity<>(null,HttpStatus.OK);
     }
 
 }
