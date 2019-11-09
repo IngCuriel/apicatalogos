@@ -3,6 +3,7 @@ package com.curiel.catalogos.util;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,9 +39,9 @@ public abstract class GenericEntity implements Serializable {
     
     @OneToOne(fetch=FetchType.EAGER)
     private Usuario usuario;
-
-    @OneToOne(fetch=FetchType.EAGER)
-    private Status status;
+    
+    @Column(nullable=true)
+    private int status;
     
     @PrePersist
     public void prePersist() {

@@ -20,5 +20,7 @@ public class SucursalDto extends GenericDto implements Serializable {
     
     String nombre;
     String descripcion;
+    String logo;
+
         
 }

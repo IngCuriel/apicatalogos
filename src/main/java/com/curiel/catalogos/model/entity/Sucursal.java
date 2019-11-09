@@ -23,11 +23,10 @@ public class Sucursal extends GenericEntity implements Serializable{
      * 
      */
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    Long id;
+   
     String nombre;
     String descripcion;
+    String logo;
      
     
 }
