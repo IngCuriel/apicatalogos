@@ -3,6 +3,9 @@ package com.curiel.catalogos.config;
   
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import springfox.documentation.builders.PathSelectors;
@@ -20,7 +23,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-public class SwaggerConfiguration {
+@EnableWebMvc
+public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
     @Value("${host}")
     private String host;
     
@@ -34,8 +38,12 @@ public class SwaggerConfiguration {
 				.host(host);
 		 
 	}
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+        .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/");
+ 
     }
 }
