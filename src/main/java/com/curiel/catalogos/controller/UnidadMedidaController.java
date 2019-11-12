@@ -56,10 +56,6 @@ public class UnidadMedidaController implements GenericController<UnidadMedidaDto
         return new ResponseEntity<>(unidadMedidaService.getById(id),HttpStatus.OK);
     }
     
-    @GetMapping("/sucursales/{id}/unidades")
-    public ResponseEntity<Set<UnidadMedidaDto>> getBySucursalId(@PathVariable Long id) {
-        return new ResponseEntity<>(unidadMedidaService.getBySucursalId(id),HttpStatus.OK);
-    }
 
     @PutMapping("/unidades/{id}/")
     public ResponseEntity<UnidadMedidaDto> updateStatus(@PathVariable Long id, @RequestParam Long  statusId) {

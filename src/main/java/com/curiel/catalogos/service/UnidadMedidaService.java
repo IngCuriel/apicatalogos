@@ -50,12 +50,7 @@ public class UnidadMedidaService implements GenericService<UnidadMedidaDto, Unid
          return convertToDto(unidadMedida);
     }
     
-    @Transactional(readOnly=true)
-    public Set<UnidadMedidaDto> getBySucursalId(Long id) {
-        Set<UnidadMedidaDto> unidadMedidaList=new HashSet<>();
-        unidadMedidaRepository.findBySucursalId(id).forEach(unidadMedida->unidadMedidaList.add(convertToDto(unidadMedida)));
-        return unidadMedidaList;
-    }
+    
     
     @Transactional
     public int updateStatus(Long id,Long statusId) {
