@@ -11,49 +11,60 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.curiel.catalogos.model.dto.ProductoDto;
 import com.curiel.catalogos.service.ProductoService;
 import com.curiel.catalogos.util.GenericController;
 
 @RestController
-@RequestMapping("api/v1/productos")
+@RequestMapping("api/v1")
 public class ProductoController implements GenericController<ProductoDto, Long>{
     
     @Autowired
     private ProductoService productoService;
 
     @Override
-    @GetMapping
+    @GetMapping("/productos")
     public ResponseEntity<Set<ProductoDto>> list() {
          return new ResponseEntity<>(productoService.list(),HttpStatus.OK);
     }
 
     @Override
-    @DeleteMapping("{id}")
+    @DeleteMapping("/productos/{id}")
     public ResponseEntity<ProductoDto> delete(@PathVariable Long id) {
          productoService.delete(id);
          return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
     @Override
-    @PostMapping
+    @PostMapping("/productos")
     public ResponseEntity<ProductoDto> save(@RequestBody ProductoDto dto) {
          return new ResponseEntity<>(productoService.save(dto),HttpStatus.OK);
     }
 
     @Override
-    @PutMapping
+    @PutMapping("/productos")
     public ResponseEntity<ProductoDto> update(@RequestBody ProductoDto dto) {
         return new ResponseEntity<>(productoService.save(dto),HttpStatus.OK);
     }
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping("/productos/{id}")
     public ResponseEntity<ProductoDto> getById(@PathVariable Long id) {
          return new ResponseEntity<>(productoService.getById(id),HttpStatus.OK);
     }
 
+    @GetMapping("/sucursales/{id}/productos")
+    public ResponseEntity<Set<ProductoDto>> getProductosBySucursalId(@PathVariable long id,@RequestParam int status){
+    	return new ResponseEntity<>(productoService.listProductosBySucursalIdAndStatus(id,status),HttpStatus.OK);
+    }
+    
+    @GetMapping("/productos/like")
+    public ResponseEntity<Set<ProductoDto>> getProductosByNombreLike(@RequestParam String nombre,@RequestParam int status){
+    	return new ResponseEntity<>(productoService.listProductosByNombreLikeAndStatus(nombre,status),HttpStatus.OK);
+    }
+      
       
     
     
