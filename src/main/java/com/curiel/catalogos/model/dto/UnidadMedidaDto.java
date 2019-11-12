@@ -19,7 +19,6 @@ public class UnidadMedidaDto extends GenericDto implements Serializable{
     
     String clave;
     String descripcion;
-    private Sucursal sucursal; 
     
    
 }

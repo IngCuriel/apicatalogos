@@ -20,9 +20,7 @@ public class UnidadMedida  extends GenericEntity implements Serializable {
     String clave;
     
     String descripcion;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Sucursal sucursal;
+     
     
     
   
