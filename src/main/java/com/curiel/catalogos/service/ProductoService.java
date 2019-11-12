@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.curiel.catalogos.model.dto.ProductoDto;
+import com.curiel.catalogos.model.dto.UnidadMedidaDto;
 import com.curiel.catalogos.model.entity.Producto;
 import com.curiel.catalogos.repository.ProductoRepository;
 import com.curiel.catalogos.util.GenericService;
@@ -49,7 +50,20 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
          Producto producto=productoRepository.getOne(id);
          return convertToDto(producto);
     }
-
+    
+    @Transactional(readOnly = true)
+    public Set<ProductoDto> listProductosBySucursalIdAndStatus(Long sucursalId,int status){
+        Set<ProductoDto> productoDtolist=new HashSet<>();
+        productoRepository.findBySucursalIdAndStatus(sucursalId,status).forEach(productos->productoDtolist.add(convertDto(productos)));
+        return  productoDtolist;
+    }
+    @Transactional(readOnly = true)
+    public Set<ProductoDto> listProductosByNombreLikeAndStatus(String nombre,int status){
+        Set<ProductoDto> productoDtolist=new HashSet<>();
+        productoRepository.findByNombreContainingAndStatus(nombre,status).forEach(productos->productoDtolist.add(convertDto(productos)));
+        return  productoDtolist;
+    }
+    
     @Override
     public ProductoDto convertToDto(Producto entity) {
          return modelMapper.map(entity, ProductoDto.class);
@@ -58,6 +72,18 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
     @Override
     public Producto convertToEntity(ProductoDto dto) {
          return modelMapper.map(dto, Producto.class);
+    }
+    
+    public ProductoDto convertDto(Producto entity) {
+    	ProductoDto dto=new ProductoDto();
+    	dto.setId(entity.getId());
+    	dto.setNombre(entity.getNombre());
+    	dto.setDecripcion(entity.getDecripcion());
+    	dto.setPrecio(entity.getPrecio());
+    	UnidadMedidaDto unidadDto=new UnidadMedidaDto();
+    	unidadDto.setClave(entity.getUnidadMedida().getClave());
+    	dto.setUnidadMedida(unidadDto);
+        return dto;
     }
   
   
