@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.curiel.catalogos.model.dto.SucursalDto;
 import com.curiel.catalogos.service.SucursalService;
@@ -55,12 +56,19 @@ public class SucursalController implements GenericController<SucursalDto, Long> 
         return new ResponseEntity<>(sucursalService.getById(id),HttpStatus.OK);
     }
 
-     
-    public ResponseEntity<SucursalDto> updateStatus(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Integer> updateStatus(@PathVariable Long id,@RequestParam int status) {
+        return new ResponseEntity<>(sucursalService.updateByStatus(id, status),HttpStatus.OK);
     }
     
+    @PutMapping("/{id}/megusta")
+    public ResponseEntity<Integer> updateByIdAndMeGusta(@PathVariable Long id) {
+        return new ResponseEntity<>(sucursalService.updateByIdAndMeGusta(id),HttpStatus.OK);
+    }
     
-
+    @GetMapping("/status")
+    public ResponseEntity<Set<SucursalDto>> listByStatus(@RequestParam int status) {
+        return new ResponseEntity<>(sucursalService.listByStatus(status),HttpStatus.OK);
+ 
+    }
 }

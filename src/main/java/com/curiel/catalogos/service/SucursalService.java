@@ -48,6 +48,24 @@ public class SucursalService implements GenericService<SucursalDto, Sucursal, Lo
              return convertToDto(sucursal);
         }
         
+        @Transactional
+        public int updateByIdAndMeGusta(Long id) {
+             return  sucursalRepository.updateByIdAndMeGusta(id, 1);
+        }
+        
+        @Transactional
+        public int updateByStatus(Long id,int status) {
+             return  sucursalRepository.updateStatus(id, status);
+        }
+        
+        @Transactional(readOnly=true)
+        public Set<SucursalDto> listByStatus(int status) {
+          Set<SucursalDto> sucursalDtoList= new HashSet<>(); 
+          sucursalRepository.findByStatus(status).forEach(sucursal->sucursalDtoList.add(convertToDto(sucursal)));
+          return sucursalDtoList;
+        }
+        
+        
         @Override
         public SucursalDto convertToDto(Sucursal entity) {
              return modelMapper.map(entity, SucursalDto.class);

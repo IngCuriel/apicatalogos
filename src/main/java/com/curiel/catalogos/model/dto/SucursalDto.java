@@ -2,6 +2,7 @@ package com.curiel.catalogos.model.dto;
 
 import java.io.Serializable;
 
+
 import com.curiel.catalogos.util.GenericDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,10 +17,13 @@ public class SucursalDto extends GenericDto implements Serializable {
     /**
      * 
      */
-    private static final long serialVersionUID = -7296987827312189434L;
+    private static final long serialVersionUID = -1;
     
     String nombre;
-    String descripcion;
+    String descripcion; 
+    String contacto;
+    String redSocial;
+    int meGusta;
     String logo;
 
         
