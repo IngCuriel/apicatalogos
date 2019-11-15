@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+
+import com.curiel.catalogos.emun.TipoUsuario;
+import com.sun.istack.NotNull;
 
 import lombok.Data;
 
@@ -25,8 +29,18 @@ public class Usuario implements Serializable {
     @Column(unique=true,length=20)
     private String username;
     
+    @NotNull
+    @Email
+    @Column(unique=true)
+    private String email;
+    
     @Column(length=60)
     private String password;
     
-    private Boolean enabled; 
+    private Boolean enabled;
+    
+    private TipoUsuario tipousuario;
+    
+    @Column(nullable=true)
+    private long sucursalid;
 }
