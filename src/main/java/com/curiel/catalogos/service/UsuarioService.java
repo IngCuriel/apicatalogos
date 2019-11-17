@@ -1,5 +1,6 @@
 package com.curiel.catalogos.service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
@@ -22,24 +23,24 @@ public class UsuarioService implements GenericService<UsuarioDto, Usuario, Long>
 	private ModelMapper modelMapper; 
 	 
 	@Override
+	@Transactional(readOnly=true)
 	public Set<UsuarioDto> list() {
- 		return null;
+		Set<UsuarioDto> listUsuario=new HashSet<>();
+		usuarioRepository.findAll().forEach(usuario -> listUsuario.add(convertToDto(usuario)));
+ 		return listUsuario;
 	}
 
 	@Override
+ 	@Transactional(readOnly=true)
 	public void delete(Long id) {
- 		
+		usuarioRepository.deleteById(id);
 	}
 
 	@Override
 	@Transactional
 	public UsuarioDto save(UsuarioDto dto) {
-		Usuario usuario=usuarioRepository.save(convertToEntity(dto));
-		UsuarioDto usuariodto=new UsuarioDto();
-		usuariodto.setId(usuario.getId());
-		usuariodto.setEmail(usuario.getEmail());
-		usuariodto.setTipousuario(usuario.getTipousuario());
- 		return usuariodto;
+		Usuario usuario=usuarioRepository.save(convertToEntity(dto)); 
+ 		return convertToDto(usuario);
 	}
 
 	@Override
