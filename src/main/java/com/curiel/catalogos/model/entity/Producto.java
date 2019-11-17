@@ -34,6 +34,8 @@ public class Producto extends GenericEntity implements Serializable{
     
     BigDecimal costo;
     
+    String imagen;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursal;
     

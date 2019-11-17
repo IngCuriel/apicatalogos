@@ -27,7 +27,7 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
     @Transactional(readOnly=true)
     public Set<ProductoDto> list() {
         Set<ProductoDto> productoDtolist=new HashSet<>();
-        productoRepository.findAll().forEach(producto->productoDtolist.add(convertToDto(producto)));
+        productoRepository.findAll().forEach(producto->productoDtolist.add(convertDto(producto)));
          return productoDtolist;
     }
 
@@ -80,9 +80,7 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
     	dto.setNombre(entity.getNombre());
     	dto.setDecripcion(entity.getDecripcion());
     	dto.setPrecio(entity.getPrecio());
-    	UnidadMedidaDto unidadDto=new UnidadMedidaDto();
-    	unidadDto.setClave(entity.getUnidadMedida().getClave());
-    	dto.setUnidadMedida(unidadDto);
+    	dto.setImagen(entity.getImagen()); 
         return dto;
     }
   

@@ -24,6 +24,7 @@ public class ProductoDto extends GenericDto implements Serializable{
     String decripcion;
     BigDecimal precio;
     BigDecimal costo;
+    String imagen;
     private SucursalDto sucursal;
     private UnidadMedidaDto unidadMedida;
 
