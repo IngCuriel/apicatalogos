@@ -62,7 +62,7 @@ public class CategoriaController implements GenericController<CategoriaDto, Long
  		return new ResponseEntity<>(categoriaService.listSubCategoria(id, status),HttpStatus.OK);
 	}
 	
-	@GetMapping("/pabres")
+	@GetMapping("/padres")
 	public ResponseEntity<Set<CategoriaDto>> listCategoria(@RequestParam int status) {
  		return new ResponseEntity<>(categoriaService.listCategoria(status),HttpStatus.OK);
 	}
