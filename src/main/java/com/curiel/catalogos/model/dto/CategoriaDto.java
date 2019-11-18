@@ -14,4 +14,6 @@ public class CategoriaDto extends GenericDto {
     private static final long serialVersionUID = 1L;
     private String descripcion;
     
+    private CategoriaDto categoria;
+
 }

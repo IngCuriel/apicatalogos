@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.curiel.catalogos.model.dto.CategoriaDto;
@@ -54,6 +55,16 @@ public class CategoriaController implements GenericController<CategoriaDto, Long
 	@GetMapping("/{id}")
 	public ResponseEntity<CategoriaDto> getById(@PathVariable Long id) {
  		return new ResponseEntity<>(categoriaService.getById(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/subcategoria")
+	public ResponseEntity<Set<CategoriaDto>> listSubcategoria(@PathVariable Long id,@RequestParam int status) {
+ 		return new ResponseEntity<>(categoriaService.listSubCategoria(id, status),HttpStatus.OK);
+	}
+	
+	@GetMapping("/pabres")
+	public ResponseEntity<Set<CategoriaDto>> listCategoria(@RequestParam int status) {
+ 		return new ResponseEntity<>(categoriaService.listCategoria(status),HttpStatus.OK);
 	}
 	
 
