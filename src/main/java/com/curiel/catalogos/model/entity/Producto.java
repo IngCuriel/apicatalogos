@@ -25,7 +25,7 @@ public class Producto extends GenericEntity implements Serializable{
     
     String nombre;
     
-    String decripcion;
+    String descripcion;
     
     BigDecimal precio;
     

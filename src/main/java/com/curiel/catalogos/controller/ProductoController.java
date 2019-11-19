@@ -60,6 +60,11 @@ public class ProductoController implements GenericController<ProductoDto, Long>{
     	return new ResponseEntity<>(productoService.listProductosBySucursalIdAndStatus(id,status),HttpStatus.OK);
     }
     
+    @GetMapping("/categorias/{id}/productos")
+    public ResponseEntity<Set<ProductoDto>> getProductosByCategorialId(@PathVariable long id,@RequestParam int status){
+    	return new ResponseEntity<>(productoService.listProductosByCategorialIdAndStatus(id,status),HttpStatus.OK);
+    }
+    
     @GetMapping("/productos/like")
     public ResponseEntity<Set<ProductoDto>> getProductosByNombreLike(@RequestParam String nombre,@RequestParam int status){
     	return new ResponseEntity<>(productoService.listProductosByNombreLikeAndStatus(nombre,status),HttpStatus.OK);
