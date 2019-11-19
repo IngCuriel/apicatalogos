@@ -1,15 +1,16 @@
 package com.curiel.catalogos.repository;
 import java.util.Set;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.curiel.catalogos.model.entity.Categoria;
 
 public interface CategoriaRespository extends JpaRepository<Categoria, Long> {
 	
-	Set<Categoria> findByStatus(int status);
+	//Set<Categoria> findByStatus(int status);
 	
-	Set<Categoria> findByCategoriaIdAndStatus(Long categariaId, int status);
+	//Set<Categoria> findByCategoriaIdAndStatus(Long categariaId, int status);
 	
-	Set<Categoria> findByCategoriaIdIsNullAndStatus(int status);
+	Set<Categoria> findByCategoriasIsNotNullAndStatus(int status);
 
 }

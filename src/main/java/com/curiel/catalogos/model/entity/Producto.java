@@ -36,6 +36,9 @@ public class Producto extends GenericEntity implements Serializable{
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursal;
     
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Categoria categoria;
+    
     @OneToOne(fetch = FetchType.EAGER)
     private UnidadMedida unidadMedida;
    
