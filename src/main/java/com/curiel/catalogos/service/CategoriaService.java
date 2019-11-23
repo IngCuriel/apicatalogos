@@ -28,6 +28,20 @@ public class CategoriaService implements GenericService<CategoriaDto, Categoria,
 		categoriaRespository.findAll().forEach(categoria->listCategoriaDto.add(convertToDto(categoria)));
 		return listCategoriaDto;
 	}
+	
+	@Transactional(readOnly=true)
+	public Set<CategoriaDto> listCategoria(int status) {
+		Set<CategoriaDto> listCategoriaDto=new HashSet<>();
+		categoriaRespository.findByCategoriasIsNotNullAndStatus(status).forEach(categoria->listCategoriaDto.add(convertToDto(categoria)));
+		return listCategoriaDto;
+	}
+	/*
+	@Transactional(readOnly=true)
+	public Set<CategoriaDto> listSubCategoria(Long categoriaId, int status) {
+		Set<CategoriaDto> listCategoriaDto=new HashSet<>();
+		categoriaRespository.findByCategoriaIdAndStatus(categoriaId,status).forEach(categoria->listCategoriaDto.add(convertToDto(categoria)));
+		return listCategoriaDto;
+	}*/
 
 	@Override
 	@Transactional

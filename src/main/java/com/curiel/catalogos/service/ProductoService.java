@@ -9,9 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.curiel.catalogos.model.dto.ProductoDto;
-import com.curiel.catalogos.model.dto.UnidadMedidaDto;
 import com.curiel.catalogos.model.entity.Producto;
 import com.curiel.catalogos.repository.ProductoRepository;
 import com.curiel.catalogos.util.GenericService;
@@ -29,7 +27,7 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
     @Transactional(readOnly=true)
     public Set<ProductoDto> list() {
         Set<ProductoDto> productoDtolist=new HashSet<>();
-        productoRepository.findAll().forEach(producto->productoDtolist.add(convertToDto(producto)));
+        productoRepository.findAll().forEach(producto->productoDtolist.add(convertDto(producto)));
          return productoDtolist;
     }
     @Transactional(readOnly = true)
@@ -64,6 +62,12 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
         return  productoDtolist;
     }
     @Transactional(readOnly = true)
+    public Set<ProductoDto> listProductosByCategorialIdAndStatus(Long categoriaId,int status){
+        Set<ProductoDto> productoDtolist=new HashSet<>();
+        productoRepository.findByCategoriaIdAndStatus(categoriaId,status).forEach(productos->productoDtolist.add(convertDto(productos)));
+        return  productoDtolist;
+    }
+    @Transactional(readOnly = true)
     public Set<ProductoDto> listProductosByNombreLikeAndStatus(String nombre,int status){
         Set<ProductoDto> productoDtolist=new HashSet<>();
         productoRepository.findByNombreContainingAndStatus(nombre,status).forEach(productos->productoDtolist.add(convertDto(productos)));
@@ -84,11 +88,9 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
     	ProductoDto dto=new ProductoDto();
     	dto.setId(entity.getId());
     	dto.setNombre(entity.getNombre());
-    	dto.setDecripcion(entity.getDecripcion());
+    	dto.setDescripcion(entity.getDescripcion());
     	dto.setPrecio(entity.getPrecio());
-    	UnidadMedidaDto unidadDto=new UnidadMedidaDto();
-    	unidadDto.setClave(entity.getUnidadMedida().getClave());
-    	dto.setUnidadMedida(unidadDto);
+    	dto.setImagen(entity.getImagen()); 
         return dto;
     }
   

@@ -2,8 +2,7 @@ package com.curiel.catalogos.model.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import com.curiel.catalogos.model.entity.UnidadMedida;
+ 
 import com.curiel.catalogos.util.GenericDto;
 
 import lombok.AllArgsConstructor;
@@ -21,10 +20,12 @@ public class ProductoDto extends GenericDto implements Serializable{
      */
     private static final long serialVersionUID = -1;
     String nombre;
-    String decripcion;
+    String descripcion;
     BigDecimal precio;
     BigDecimal costo;
+    String imagen;
     private SucursalDto sucursal;
+    private CategoriaDto categoria;
     private UnidadMedidaDto unidadMedida;
 
 

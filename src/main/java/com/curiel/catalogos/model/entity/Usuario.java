@@ -26,7 +26,7 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
-    @Column(unique=true,length=20)
+    @Column(unique=true,length=250)
     private String username;
     
     @NotNull
