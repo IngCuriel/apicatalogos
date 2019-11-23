@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,10 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
         Set<ProductoDto> productoDtolist=new HashSet<>();
         productoRepository.findAll().forEach(producto->productoDtolist.add(convertToDto(producto)));
          return productoDtolist;
+    }
+    @Transactional(readOnly = true)
+    public Page<Producto> paguinas(Pageable pageable){
+        return productoRepository.findAll(pageable);
     }
 
     @Override

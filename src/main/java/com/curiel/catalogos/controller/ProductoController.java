@@ -2,6 +2,9 @@ package com.curiel.catalogos.controller;
 
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.curiel.catalogos.model.dto.ProductoDto;
+import com.curiel.catalogos.model.entity.Producto;
 import com.curiel.catalogos.service.ProductoService;
 import com.curiel.catalogos.util.GenericController;
 
@@ -28,6 +32,20 @@ public class ProductoController implements GenericController<ProductoDto, Long>{
     @GetMapping("/productos")
     public ResponseEntity<Set<ProductoDto>> list() {
          return new ResponseEntity<>(productoService.list(),HttpStatus.OK);
+    }
+    
+    @GetMapping("/productos/paguinas")
+    public ResponseEntity<Page<Producto>> paginas(
+    		@RequestParam(defaultValue = "0") int page,
+    		@RequestParam(defaultValue = "10") int size,
+    		@RequestParam(defaultValue = "nombre") String order,
+    		@RequestParam(defaultValue = "true") boolean asc
+    		){
+    	Page<Producto> productos= productoService.paguinas(PageRequest.of(page, size, Sort.by(order)));
+    	if(!asc)
+    		productos= productoService.paguinas(PageRequest.of(page, size, Sort.by(order).descending()));
+    	return new ResponseEntity<>(productos,HttpStatus.OK);
+    	
     }
 
     @Override
