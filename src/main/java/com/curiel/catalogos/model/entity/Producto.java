@@ -2,6 +2,7 @@ package com.curiel.catalogos.model.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -32,6 +33,8 @@ public class Producto extends GenericEntity implements Serializable{
     BigDecimal costo;
     
     String imagen;
+    
+    Boolean visiblePage;
     
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursal;

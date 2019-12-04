@@ -34,19 +34,7 @@ public class ProductoController implements GenericController<ProductoDto, Long>{
          return new ResponseEntity<>(productoService.list(),HttpStatus.OK);
     }
     
-    @GetMapping("/productos/paguinas")
-    public ResponseEntity<Page<Producto>> paginas(
-    		@RequestParam(defaultValue = "0") int page,
-    		@RequestParam(defaultValue = "10") int size,
-    		@RequestParam(defaultValue = "nombre") String order,
-    		@RequestParam(defaultValue = "true") boolean asc
-    		){
-    	Page<Producto> productos= productoService.paguinas(PageRequest.of(page, size, Sort.by(order)));
-    	if(!asc)
-    		productos= productoService.paguinas(PageRequest.of(page, size, Sort.by(order).descending()));
-    	return new ResponseEntity<>(productos,HttpStatus.OK);
-    	
-    }
+
 
     @Override
     @DeleteMapping("/productos/{id}")
@@ -72,20 +60,62 @@ public class ProductoController implements GenericController<ProductoDto, Long>{
     public ResponseEntity<ProductoDto> getById(@PathVariable Long id) {
          return new ResponseEntity<>(productoService.getById(id),HttpStatus.OK);
     }
+    
+    @GetMapping("/productos/page")
+    public ResponseEntity<Page<ProductoDto>> getPageOfProductosByStatus(
+				    		@RequestParam int status,
+				    		@RequestParam Boolean visiblePage,
+				    		@RequestParam(defaultValue = "0") int page,
+				    		@RequestParam(defaultValue = "10") int size,
+				    		@RequestParam(defaultValue = "nombre") String order,
+				    		@RequestParam(defaultValue = "true") boolean asc
+				    		){
+    	Page<ProductoDto> productos= productoService.listProductosByStatus(status, visiblePage,PageRequest.of(page, size, Sort.by(order)));
+    	if(!asc)
+    		productos= productoService.listProductosByStatus(status, visiblePage,PageRequest.of(page, size, Sort.by(order).descending()));
+    	return new ResponseEntity<>(productos,HttpStatus.OK);
+    	
+    }
 
-    @GetMapping("/sucursales/{id}/productos")
-    public ResponseEntity<Set<ProductoDto>> getProductosBySucursalId(@PathVariable long id,@RequestParam int status){
-    	return new ResponseEntity<>(productoService.listProductosBySucursalIdAndStatus(id,status),HttpStatus.OK);
+    @GetMapping("/sucursales/{sucursalId}/productos")
+    public ResponseEntity<Page<ProductoDto>> getPageOfProductosBySucursalIdAndStatus(
+    		              @PathVariable("sucursalId") long sucursalId,
+    		              @RequestParam int status,
+     		              @RequestParam Boolean visiblePage,
+     		              @RequestParam(defaultValue = "0") int page,
+     		     		  @RequestParam(defaultValue = "10") int size,
+     		     		  @RequestParam(defaultValue = "nombre") String order,
+     		     		  @RequestParam(defaultValue = "true") boolean asc){
+    	return new ResponseEntity<>(productoService.listProductosBySucursalIdAndStatus(sucursalId,status,visiblePage,PageRequest.of(page, size,Sort.by(order))),HttpStatus.OK);
     }
     
-    @GetMapping("/categorias/{id}/productos")
-    public ResponseEntity<Set<ProductoDto>> getProductosByCategorialId(@PathVariable long id,@RequestParam int status){
-    	return new ResponseEntity<>(productoService.listProductosByCategorialIdAndStatus(id,status),HttpStatus.OK);
+    @GetMapping("/categorias/{categoriaId}/productos")
+    public ResponseEntity<Page<ProductoDto>> getPageOfProductosByCategoriaIdAndStatus(
+    		             @PathVariable long categoriaId,
+    		             @RequestParam int status,
+    		             @RequestParam Boolean visiblePage,
+    		             @RequestParam(defaultValue = "0") int page,
+    		     		 @RequestParam(defaultValue = "10") int size,
+    		     		 @RequestParam(defaultValue = "nombre") String order,
+    		     		 @RequestParam(defaultValue = "true") boolean asc
+    		     		){
+    	return new ResponseEntity<>(productoService.listProductosByCategorialIdAndStatus(categoriaId,status,visiblePage,PageRequest.of(page, size,Sort.by(order))),HttpStatus.OK);
     }
     
     @GetMapping("/productos/like")
-    public ResponseEntity<Set<ProductoDto>> getProductosByNombreLike(@RequestParam String nombre,@RequestParam int status){
-    	return new ResponseEntity<>(productoService.listProductosByNombreLikeAndStatus(nombre,status),HttpStatus.OK);
+    public ResponseEntity<Page<ProductoDto>> getProductosByNombreLike(
+    		              @RequestParam String nombre,
+    		              @RequestParam int status,
+    		              @RequestParam Boolean visiblePage,
+      		              @RequestParam(defaultValue = "0") int page,
+     		     		  @RequestParam(defaultValue = "10") int size,
+     		     		  @RequestParam(defaultValue = "nombre") String order,
+     		     		  @RequestParam(defaultValue = "true") boolean asc
+    		              ){
+    	Sort sort = Sort.by(order);
+    	if(!asc)
+    	   sort = Sort.by(order).descending();
+    	return new ResponseEntity<>(productoService.listProductosByNombreLikeAndStatus(nombre,status,visiblePage,PageRequest.of(page, size ,sort)),HttpStatus.OK);
     }
       
       

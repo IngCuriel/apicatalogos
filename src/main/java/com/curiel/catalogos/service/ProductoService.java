@@ -1,12 +1,17 @@
 package com.curiel.catalogos.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.curiel.catalogos.model.dto.ProductoDto;
@@ -30,10 +35,6 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
         productoRepository.findAll().forEach(producto->productoDtolist.add(convertDto(producto)));
          return productoDtolist;
     }
-    @Transactional(readOnly = true)
-    public Page<Producto> paguinas(Pageable pageable){
-        return productoRepository.findAll(pageable);
-    }
 
     @Override
     @Transactional
@@ -56,22 +57,58 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
     }
     
     @Transactional(readOnly = true)
-    public Set<ProductoDto> listProductosBySucursalIdAndStatus(Long sucursalId,int status){
-        Set<ProductoDto> productoDtolist=new HashSet<>();
-        productoRepository.findBySucursalIdAndStatus(sucursalId,status).forEach(productos->productoDtolist.add(convertDto(productos)));
-        return  productoDtolist;
+    public Page<ProductoDto> listProductosByStatus(int status,Boolean visiblePage,Pageable pageable){
+	    	List<ProductoDto> productosDtoList= new ArrayList<>();
+	    	Page<Producto> productos;
+	    	if(Boolean.TRUE.equals(visiblePage)) {
+	    		productos=productoRepository.findByStatusAndVisiblePage(status, visiblePage,pageable);
+	    	}else {
+	    		productos=productoRepository.findByStatus(status,pageable);
+	    	}
+	    	productos.getContent().forEach(productoscontent-> productosDtoList.add(convertDto(productoscontent)));
+	        return new PageImpl<>(productosDtoList,pageable,productos.getTotalElements());
     }
+
+    
     @Transactional(readOnly = true)
-    public Set<ProductoDto> listProductosByCategorialIdAndStatus(Long categoriaId,int status){
-        Set<ProductoDto> productoDtolist=new HashSet<>();
-        productoRepository.findByCategoriaIdAndStatus(categoriaId,status).forEach(productos->productoDtolist.add(convertDto(productos)));
-        return  productoDtolist;
+    public Page<ProductoDto> listProductosBySucursalIdAndStatus(Long sucursalId,int status, Boolean visiblePage,Pageable pageable){
+	        List<ProductoDto> productoDtolist=new ArrayList<>();
+	        Page<Producto> productos;
+	        if(Boolean.TRUE.equals(visiblePage)) {
+	        	productos=productoRepository.findBySucursalIdAndStatusAndVisiblePage(sucursalId, status, visiblePage, pageable);
+	        }else {
+	        	productos=productoRepository.findBySucursalIdAndStatus(sucursalId, status, pageable);
+	        }
+	        productos.getContent().forEach(productoscontent->productoDtolist.add(convertDto(productoscontent)));
+	        return new PageImpl<>(productoDtolist, pageable,productos.getTotalElements());
     }
+    
+    
+	@Transactional(readOnly = true)
+    public Page<ProductoDto> listProductosByCategorialIdAndStatus(Long categoriaId,int status,Boolean visiblePage,Pageable pageable){
+            List<ProductoDto> productoDtolist=new ArrayList<>();
+            Page<Producto> productos;
+            if(Boolean.TRUE.equals(visiblePage)) {
+         	   productos=productoRepository.findByCategoriaIdAndStatusAndVisiblePage(categoriaId,status,visiblePage,pageable);
+            }else {
+        	   productos=productoRepository.findByCategoriaIdAndStatus(categoriaId,status,pageable);
+            }
+            productos.getContent().forEach(productoscontent->productoDtolist.add(convertDto(productoscontent)));
+            return new PageImpl<>(productoDtolist,pageable, productos.getTotalElements());
+    }
+     
+	
     @Transactional(readOnly = true)
-    public Set<ProductoDto> listProductosByNombreLikeAndStatus(String nombre,int status){
-        Set<ProductoDto> productoDtolist=new HashSet<>();
-        productoRepository.findByNombreContainingAndStatus(nombre,status).forEach(productos->productoDtolist.add(convertDto(productos)));
-        return  productoDtolist;
+    public Page<ProductoDto> listProductosByNombreLikeAndStatus(String nombre,int status,Boolean visiblePage,Pageable pageable){
+        List<ProductoDto> productoDtolist=new ArrayList<>();
+        Page<Producto> productos;
+        if(Boolean.TRUE.equals(visiblePage)) {
+        	productos = productoRepository.findByNombreContainingAndStatusAndVisiblePage(nombre, status, visiblePage, pageable);
+        }else {
+        	productos =productoRepository.findByNombreContainingAndStatus(nombre, status, pageable);
+        }
+        productos.getContent().forEach(productoscontent->productoDtolist.add(convertDto(productoscontent)));
+        return  new PageImpl<>(productoDtolist,pageable,productos.getTotalElements());
     }
     
     @Override
@@ -90,7 +127,8 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
     	dto.setNombre(entity.getNombre());
     	dto.setDescripcion(entity.getDescripcion());
     	dto.setPrecio(entity.getPrecio());
-    	dto.setImagen(entity.getImagen()); 
+    	dto.setImagen(entity.getImagen());
+    	dto.setVisiblePage(entity.getVisiblePage());
         return dto;
     }
   

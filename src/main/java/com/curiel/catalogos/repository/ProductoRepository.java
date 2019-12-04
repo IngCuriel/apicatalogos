@@ -1,15 +1,28 @@
 package com.curiel.catalogos.repository;
 
-import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.curiel.catalogos.model.entity.Producto;
  
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
-	
-    Set<Producto> findBySucursalIdAndStatus(Long sucursalId,int status);
-    
-    Set<Producto> findByNombreContainingAndStatus(String nombre,int status);
 
-    Set<Producto> findByCategoriaIdAndStatus(Long categoriaId,int status);
+	Page<Producto> findByStatus(int status,Pageable pageable);
+
+	Page<Producto> findByStatusAndVisiblePage(int status,Boolean visiblePage,Pageable pageable);	
+	
+    Page<Producto> findBySucursalIdAndStatusAndVisiblePage(Long sucursalId,int status,Boolean visiblePage,Pageable pageable);
+
+    Page<Producto> findBySucursalIdAndStatus(Long sucursalId,int status,Pageable pageable);
+    
+    Page<Producto> findByCategoriaIdAndStatusAndVisiblePage(Long categoriaId,int status,Boolean visiblePage,Pageable pageable);
+    
+    Page<Producto> findByCategoriaIdAndStatus(Long categoriaId,int status,Pageable pageable);
+    
+    Page<Producto> findByNombreContainingAndStatus(String nombre,int status,Pageable pageable);
+
+    Page<Producto> findByNombreContainingAndStatusAndVisiblePage(String nombre,int status,Boolean visiblePage,Pageable pageable);
+
+
 
 }
