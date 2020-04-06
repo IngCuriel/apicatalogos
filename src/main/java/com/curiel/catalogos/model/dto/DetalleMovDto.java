@@ -15,7 +15,6 @@ public class DetalleMovDto {
 
     private Producto producto;
     
-    public BigDecimal getImporte() {
-        return cantidad.multiply(producto.getPrecio());
-    }
+    BigDecimal importe;
+
  }
