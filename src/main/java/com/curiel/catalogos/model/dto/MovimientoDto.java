@@ -19,12 +19,14 @@ public class MovimientoDto {
     private Set<DetalleMovDto> detallesMov;
     
     private Date createAt;
+    
+    BigDecimal total;
   
-    public BigDecimal getTotal() {
+   /* public BigDecimal getTotal() {
          BigDecimal total = BigDecimal.ZERO;
           for(DetalleMovDto detall:detallesMov) {
               total =total.add(detall.getImporte());
          }
         return total;
-     }
+     }*/
 }
