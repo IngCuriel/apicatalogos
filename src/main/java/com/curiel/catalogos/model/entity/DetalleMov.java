@@ -26,7 +26,7 @@ public class DetalleMov implements Serializable{
     
     BigDecimal cantidad;
     
-    BigDecimal costoUnitario;
+    BigDecimal importe;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "producto_id")
