@@ -29,6 +29,8 @@ public class Movimiento {
     String observacion;
 
     String clienteProveedor;
+   
+    BigDecimal total;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "detalle_mov_id")
