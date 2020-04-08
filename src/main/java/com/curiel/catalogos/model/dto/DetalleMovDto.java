@@ -13,7 +13,7 @@ public class DetalleMovDto {
    
     BigDecimal cantidad;
 
-    private Producto producto;
+    private ProductoDto producto;
     
     BigDecimal importe;
 

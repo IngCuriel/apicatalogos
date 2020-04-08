@@ -1,5 +1,6 @@
 package com.curiel.catalogos.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 

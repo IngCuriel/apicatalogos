@@ -1,12 +1,18 @@
 package com.curiel.catalogos.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.curiel.catalogos.model.dto.DetalleMovDto;
 import com.curiel.catalogos.model.dto.MovimientoDto;
+import com.curiel.catalogos.model.dto.ProductoDto;
+import com.curiel.catalogos.model.entity.DetalleMov;
 import com.curiel.catalogos.model.entity.Movimiento;
 import com.curiel.catalogos.repository.MovimientoRepository;
 import com.curiel.catalogos.util.GenericService;
@@ -49,9 +55,37 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
     }
     
     @Transactional(readOnly=true)
-    public MovimientoDto getByClienteProveedor(String clienteProveedor) {
-        Movimiento movimiento= movimientoRepository.findByClienteProveedor(clienteProveedor);
-        return convertToDto(movimiento);
+    public List<MovimientoDto> getByClienteProveedor(String clienteProveedor) {
+    	List<MovimientoDto> movimientoDtoList=new ArrayList<>();
+        List<Movimiento> movimientos= movimientoRepository.findByClienteProveedor(clienteProveedor);
+        MovimientoDto movimientoDto;
+        ProductoDto producto=new ProductoDto();
+        for(Movimiento movimiento:movimientos) {
+        	movimientoDto = new MovimientoDto();
+            movimientoDto.setId(movimiento.getId());
+            movimientoDto.setCreateAt(movimiento.getCreateAt());
+            movimientoDto.setClienteProveedor(movimiento.getClienteProveedor());
+            movimientoDto.setDescripcion(movimiento.getDescripcion());
+            Set<DetalleMovDto> detalleMovDtoList=new HashSet();
+            DetalleMovDto detalleMovDto ;
+            for(DetalleMov detalle:movimiento.getDetallesMov()) {
+            	detalleMovDto =new DetalleMovDto();
+            	detalleMovDto.setId(detalle.getId());
+            	detalleMovDto.setCantidad(detalle.getCantidad());
+            	detalleMovDto.setImporte(detalle.getImporte());
+                
+            	ProductoDto productoDto=new ProductoDto();
+            	productoDto.setId(detalle.getProducto().getId());
+            	productoDto.setNombre(detalle.getProducto().getNombre());
+            	detalleMovDto.setProducto(productoDto);
+            	detalleMovDtoList.add(detalleMovDto);
+            }
+            movimientoDto.setDetallesMov(detalleMovDtoList);
+            movimientoDto.setObservacion(movimiento.getObservacion());
+            movimientoDto.setTotal(movimiento.getTotal());
+            movimientoDtoList.add(movimientoDto);
+        }
+        return movimientoDtoList;
     }
     
     @Override

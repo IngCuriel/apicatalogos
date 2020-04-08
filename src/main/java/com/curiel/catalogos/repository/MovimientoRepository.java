@@ -1,8 +1,10 @@
 package com.curiel.catalogos.repository;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.curiel.catalogos.model.entity.Movimiento;
 
 public interface MovimientoRepository extends JpaRepository<Movimiento,Long>{
 
-    Movimiento findByClienteProveedor(String clienteProveedor);
+    List<Movimiento> findByClienteProveedor(String clienteProveedor);
 }

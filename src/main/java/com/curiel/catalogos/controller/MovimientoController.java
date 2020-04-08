@@ -1,5 +1,6 @@
 package com.curiel.catalogos.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +58,9 @@ public class MovimientoController implements GenericController<MovimientoDto, Lo
         return new ResponseEntity<>(movimientoService.getById(id),HttpStatus.OK);
     }
     
-    @GetMapping("/cliente")
-    public ResponseEntity<MovimientoDto> getByClienteProveedor(@RequestParam String  clienteProveedor) {
-        return new ResponseEntity<>(movimientoService.getByClienteProveedor(clienteProveedor),HttpStatus.OK);
+    @GetMapping("/clientes")
+    public ResponseEntity<List<MovimientoDto>> getByClienteProveedor(@RequestParam String  clienteProveedor) {
+        return new ResponseEntity<List<MovimientoDto>>(movimientoService.getByClienteProveedor(clienteProveedor),HttpStatus.OK);
     }
 
      
