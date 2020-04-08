@@ -77,6 +77,11 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
             	ProductoDto productoDto=new ProductoDto();
             	productoDto.setId(detalle.getProducto().getId());
             	productoDto.setNombre(detalle.getProducto().getNombre());
+            	productoDto.setDescripcion(detalle.getProducto().getDescripcion());
+            	productoDto.setImagen(detalle.getProducto().getImagen());
+            	productoDto.setPrecio(detalle.getProducto().getPrecio());
+            	productoDto.setCosto(detalle.getProducto().getCosto());
+            	
             	detalleMovDto.setProducto(productoDto);
             	detalleMovDtoList.add(detalleMovDto);
             }
