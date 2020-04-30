@@ -38,7 +38,7 @@ public class Movimiento {
     private Set<DetalleMov> detallesMov;
     
     @Column(name = "create_at")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createAt;
 
     @PrePersist
