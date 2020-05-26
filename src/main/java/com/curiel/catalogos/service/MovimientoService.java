@@ -77,7 +77,7 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
         for(Movimiento movimiento:movimientos) {
         	movimientoDto = new MovimientoDto();
             movimientoDto.setId(movimiento.getId());
-            movimientoDto.setCreateAt(movimiento.getCreateAt());
+            movimientoDto.setDateCreated(movimiento.getDateCreated());
             movimientoDto.setClienteProveedor(movimiento.getClienteProveedor());
             movimientoDto.setDescripcion(movimiento.getDescripcion());
             Set<DetalleMovDto> detalleMovDtoList=new HashSet();
@@ -135,7 +135,7 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
   		for(int i=0;i<movimientoRepository.findAll().size();i++ ) {
  			Row row = sheet.createRow(indexrow);
  			Cell cellFecha=row.createCell(0); 
- 			cellFecha.setCellValue(simpleDateFormat.format(movimientoRepository.findAll().get(i).getCreateAt()));
+ 			cellFecha.setCellValue(simpleDateFormat.format(movimientoRepository.findAll().get(i).getDateCreated()));
  			Cell cellCliente=row.createCell(1); 
  			cellCliente.setCellValue(movimientoRepository.findAll().get(i).getClienteProveedor());	
 			Cell cellObservacion=row.createCell(2); 

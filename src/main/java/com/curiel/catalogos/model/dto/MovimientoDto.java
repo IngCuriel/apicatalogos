@@ -3,6 +3,9 @@ package com.curiel.catalogos.model.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
+
+import com.curiel.catalogos.emun.StatusMovimiento;
+
 import lombok.Data;
 
 @Data
@@ -15,12 +18,19 @@ public class MovimientoDto {
     String observacion;
 
     String clienteProveedor;
-  
+    
+    private String system;
+    
+    private StatusMovimiento status; 
+    
     private Set<DetalleMovDto> detallesMov;
     
-    private Date createAt;
-    
     BigDecimal total;
+    
+    private Date dateCreated;
+    
+    private Date dateUpdated;
+     
   
    /* public BigDecimal getTotal() {
          BigDecimal total = BigDecimal.ZERO;
