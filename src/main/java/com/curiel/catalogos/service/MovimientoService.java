@@ -1,9 +1,22 @@
 package com.curiel.catalogos.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +27,7 @@ import com.curiel.catalogos.model.dto.MovimientoDto;
 import com.curiel.catalogos.model.dto.ProductoDto;
 import com.curiel.catalogos.model.entity.DetalleMov;
 import com.curiel.catalogos.model.entity.Movimiento;
+import com.curiel.catalogos.model.entity.Producto;
 import com.curiel.catalogos.repository.MovimientoRepository;
 import com.curiel.catalogos.util.GenericService;
 
@@ -63,7 +77,7 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
         for(Movimiento movimiento:movimientos) {
         	movimientoDto = new MovimientoDto();
             movimientoDto.setId(movimiento.getId());
-            movimientoDto.setCreateAt(movimiento.getCreateAt());
+            movimientoDto.setDateCreated(movimiento.getDateCreated());
             movimientoDto.setClienteProveedor(movimiento.getClienteProveedor());
             movimientoDto.setDescripcion(movimiento.getDescripcion());
             Set<DetalleMovDto> detalleMovDtoList=new HashSet();
@@ -101,6 +115,69 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
     @Override
     public Movimiento convertToEntity(MovimientoDto dto) {
          return modelMapper.map(dto, Movimiento.class);
+    }
+    
+    public ByteArrayInputStream generateExcelMovimientos() throws IOException {
+    	Workbook workbook=new HSSFWorkbook(); //create new book
+		ByteArrayOutputStream stream=new ByteArrayOutputStream();
+		Sheet sheet= workbook.createSheet("Reporte"); // create new sheet 
+		Row rowHeaders= sheet.createRow(0);
+		String[] Columns= {"Fecha","Cliente","Observaciones","Description","Cantidad","Producto","Clave","Precio"};
+		for(int i=0;i<Columns.length;i++) {
+ 			Cell cell=rowHeaders.createCell(i); 
+            cell.setCellValue(Columns[i]);
+		}
+		
+		int indexrow=1;
+		String pattern = "MM-dd-yyyy HH:mm:ss";
+		SimpleDateFormat simpleDateFormat =new SimpleDateFormat(pattern, new Locale("fr", "FR"));
+ 		BigDecimal importeTotal=new BigDecimal(0);
+  		for(int i=0;i<movimientoRepository.findAll().size();i++ ) {
+ 			Row row = sheet.createRow(indexrow);
+ 			Cell cellFecha=row.createCell(0); 
+ 			cellFecha.setCellValue(simpleDateFormat.format(movimientoRepository.findAll().get(i).getDateCreated()));
+ 			Cell cellCliente=row.createCell(1); 
+ 			cellCliente.setCellValue(movimientoRepository.findAll().get(i).getClienteProveedor());	
+			Cell cellObservacion=row.createCell(2); 
+			cellObservacion.setCellValue(movimientoRepository.findAll().get(i).getObservacion());	
+			Cell cellDescripcioon=row.createCell(3); 
+			cellDescripcioon.setCellValue(movimientoRepository.findAll().get(i).getDescripcion());
+			Set<DetalleMov> detalle=  movimientoRepository.findAll().get(i).getDetallesMov();
+				for(DetalleMov detal:detalle) {
+					indexrow+=1;
+					Row rowDetalle = sheet.createRow(indexrow);
+					Cell cellCantidad=rowDetalle.createCell(4); 
+		 			cellCantidad.setCellValue(String.valueOf(detal.getCantidad()));
+		 			
+		 			Cell cellProducto=rowDetalle.createCell(5); 
+		 			cellProducto.setCellValue(detal.getProducto().getNombre());
+		 			
+		 			Cell cellClave=rowDetalle.createCell(6); 
+		 			cellClave.setCellValue( detal.getProducto().getId());
+		 			
+		 			Cell cellPrecio=rowDetalle.createCell(7); 
+		 			cellPrecio.setCellValue("$ "+detal.getImporte());
+		 			
+                 }
+			indexrow+=1;
+			Row rowTotal= sheet.createRow(indexrow);
+			Cell cellTotalEtiqueta=rowTotal.createCell(6); 
+			cellTotalEtiqueta.setCellValue("Total $ ");
+			Cell cellTotal=rowTotal.createCell(7); 
+			cellTotal.setCellValue("$ "+movimientoRepository.findAll().get(i).getTotal());
+			indexrow+=1;
+			importeTotal=importeTotal.add(movimientoRepository.findAll().get(i).getTotal());
+ 		} 
+  	    indexrow++;
+		Row rowImporteTotal= sheet.createRow(indexrow);
+		Cell cellTotalEtiqueta=rowImporteTotal.createCell(6); 
+		cellTotalEtiqueta.setCellValue("Importe Total $ ");
+  	    Cell cellTotal=rowImporteTotal.createCell(7); 
+		cellTotal.setCellValue("$ "+importeTotal);
+		indexrow++;
+		workbook.write(stream);
+		workbook.close();
+	    return new ByteArrayInputStream(stream.toByteArray());	
     }
     
    

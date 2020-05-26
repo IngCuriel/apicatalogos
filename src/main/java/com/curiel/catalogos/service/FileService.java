@@ -2,6 +2,7 @@ package com.curiel.catalogos.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,7 +39,21 @@ public class FileService {
         return Respuesta;
     }
     
-    public byte[] getFile() {
+    public byte[] getFile(String fileName) {
+        Path path=Paths.get(RUTA_ARCHIVO+fileName);
+        File file=path.toFile();
         return null;
     }
+    public String getStringByte(String fileName) {
+    	Path path=Paths.get(RUTA_ARCHIVO+fileName);
+        File file=path.toFile();
+    	String content= "";
+		try {
+			content = new String(Files.readAllBytes(file.toPath()),StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return content;
+    } 
 }

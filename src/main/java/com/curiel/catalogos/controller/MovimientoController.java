@@ -1,9 +1,13 @@
 package com.curiel.catalogos.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -62,7 +66,15 @@ public class MovimientoController implements GenericController<MovimientoDto, Lo
     public ResponseEntity<List<MovimientoDto>> getByClienteProveedor(@RequestParam String  clienteProveedor) {
         return new ResponseEntity<List<MovimientoDto>>(movimientoService.getByClienteProveedor(clienteProveedor),HttpStatus.OK);
     }
-
+ 
+    @GetMapping("/download.xlsx")
+    public ResponseEntity<InputStreamResource>  generateExcelMovimiento() throws IOException {
+ 	   ByteArrayInputStream stream = movimientoService.generateExcelMovimientos();
+ 	   HttpHeaders headers=new HttpHeaders();
+ 	   headers.add("Content-Disposition", "attachment; filename=Movimientos.xlsx"); 	   
+        return  ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
+    }
+ 	
      
      
 
