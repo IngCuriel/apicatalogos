@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Set;
 
 import com.curiel.catalogos.emun.StatusMovimiento;
+import com.curiel.catalogos.model.entity.MovimientoFormaPago;
 
 import lombok.Data;
 
@@ -24,6 +25,8 @@ public class MovimientoDto {
     private StatusMovimiento status; 
     
     private Set<DetalleMovDto> detallesMov;
+    
+    private Set<MovimientoFormaPago> movimientoFormaPago;
     
     BigDecimal total;
     
