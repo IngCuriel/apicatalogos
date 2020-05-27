@@ -3,6 +3,7 @@ package com.curiel.catalogos.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,10 +53,16 @@ public class MovimientoController implements GenericController<MovimientoDto, Lo
     }
 
     @Override
-    @PutMapping
+    @PutMapping()
     public ResponseEntity<MovimientoDto> update(@RequestBody MovimientoDto dto) {
         return new ResponseEntity<>(movimientoService.save(dto),HttpStatus.OK);
     }
+    
+    @PatchMapping("/{id}")
+    public ResponseEntity<String > updateMovimiento(@RequestBody  Map<String, Object> updates, Long id){
+    	movimientoService.updateMovimiento(updates,id);
+        return new ResponseEntity<>("Actualizado correctamente",HttpStatus.OK);
+   }
 
     @Override
     @GetMapping("/{id}")
