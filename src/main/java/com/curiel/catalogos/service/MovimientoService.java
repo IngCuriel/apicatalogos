@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -21,6 +22,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.curiel.catalogos.model.dto.DetalleMovDto;
 import com.curiel.catalogos.model.dto.MovimientoDto;
@@ -61,6 +63,26 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
          return convertToDto(movimiento);
     }
     
+    @Transactional
+    public boolean updateMovimiento(Map<String, Object> updates, Long id) {
+    	Movimiento movimientoAntes=movimientoRepository.getOne(id);
+    	Movimiento movimiento=modelMapper.map(updates, Movimiento.class);
+    	if(movimiento.getStatus() != null){
+    		movimientoAntes.setStatus(movimiento.getStatus());
+    	}
+    	if(movimiento.getTotal() != null){
+    		movimientoAntes.setTotal(movimiento.getTotal());
+    	}
+    	if(movimiento.getDetallesMov() != null){
+    		movimientoAntes.setDetallesMov(movimiento.getDetallesMov());
+    	}
+     	 System.out.println(updates);
+    	 System.out.println(movimiento);
+    	 System.out.println(movimientoAntes);
+    	 movimientoRepository.save(movimientoAntes);
+    	return true;
+    }
+    
     @Override
     @Transactional(readOnly=true)
     public MovimientoDto getById(Long id) {
@@ -80,6 +102,8 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
             movimientoDto.setDateCreated(movimiento.getDateCreated());
             movimientoDto.setClienteProveedor(movimiento.getClienteProveedor());
             movimientoDto.setDescripcion(movimiento.getDescripcion());
+            movimientoDto.setStatus(movimiento.getStatus());
+            movimientoDto.setDateUpdated(movimiento.getDateUpdated());
             Set<DetalleMovDto> detalleMovDtoList=new HashSet();
             DetalleMovDto detalleMovDto ;
             for(DetalleMov detalle:movimiento.getDetallesMov()) {
@@ -122,7 +146,7 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
 		ByteArrayOutputStream stream=new ByteArrayOutputStream();
 		Sheet sheet= workbook.createSheet("Reporte"); // create new sheet 
 		Row rowHeaders= sheet.createRow(0);
-		String[] Columns= {"Fecha","Cliente","Observaciones","Description","Cantidad","Producto","Clave","Precio"};
+		String[] Columns= {"Fecha","Cliente","Observaciones","Description","Cantidad","Producto","Clave","Precio","Estatus"};
 		for(int i=0;i<Columns.length;i++) {
  			Cell cell=rowHeaders.createCell(i); 
             cell.setCellValue(Columns[i]);
@@ -135,13 +159,19 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
   		for(int i=0;i<movimientoRepository.findAll().size();i++ ) {
  			Row row = sheet.createRow(indexrow);
  			Cell cellFecha=row.createCell(0); 
- 			cellFecha.setCellValue(simpleDateFormat.format(movimientoRepository.findAll().get(i).getDateCreated()));
+ 			String fechatime = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(movimientoRepository.findAll().get(i).getDateCreated());
+
+ 			//cellFecha.setCellValue(simpleDateFormat.format(movimientoRepository.findAll().get(i).getDateCreated()));
+ 			cellFecha.setCellValue(fechatime);
  			Cell cellCliente=row.createCell(1); 
  			cellCliente.setCellValue(movimientoRepository.findAll().get(i).getClienteProveedor());	
 			Cell cellObservacion=row.createCell(2); 
 			cellObservacion.setCellValue(movimientoRepository.findAll().get(i).getObservacion());	
 			Cell cellDescripcioon=row.createCell(3); 
 			cellDescripcioon.setCellValue(movimientoRepository.findAll().get(i).getDescripcion());
+			Cell cellStatus=row.createCell(8); 
+			cellStatus.setCellValue(movimientoRepository.findAll().get(i).getStatus().toString());
+			
 			Set<DetalleMov> detalle=  movimientoRepository.findAll().get(i).getDetallesMov();
 				for(DetalleMov detal:detalle) {
 					indexrow+=1;

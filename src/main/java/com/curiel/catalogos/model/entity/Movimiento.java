@@ -2,6 +2,7 @@ package com.curiel.catalogos.model.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,6 +44,9 @@ public class Movimiento {
     @JoinColumn(name = "detalle_mov_id")
     private Set<DetalleMov> detallesMov;
     
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "movimiento")  
+    private Set<MovimientoFormaPago> movimientoFormaPago;
     
     @Column(name = "fecha_creado")
     @Temporal(TemporalType.TIMESTAMP)
