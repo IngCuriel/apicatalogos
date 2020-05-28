@@ -1,4 +1,4 @@
-package com.curiel.catalogos.repository;
+ package com.curiel.catalogos.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
