@@ -103,9 +103,9 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
         List<ProductoDto> productoDtolist=new ArrayList<>();
         Page<Producto> productos;
         if(Boolean.TRUE.equals(visiblePage)) {
-        	productos = productoRepository.findByNombreContainingAndStatusAndVisiblePage(nombre, status, visiblePage, pageable);
+        	productos = productoRepository.findByNombreContainingOrDescripcionContainingAndStatusAndVisiblePage(nombre,nombre, status, visiblePage, pageable);
         }else {
-        	productos =productoRepository.findByNombreContainingAndStatus(nombre, status, pageable);
+        	productos =productoRepository.findByNombreContainingOrDescripcionContainingAndStatus(nombre,nombre, status, pageable);
         }
         productos.getContent().forEach(productoscontent->productoDtolist.add(convertDto(productoscontent)));
         return  new PageImpl<>(productoDtolist,pageable,productos.getTotalElements());
