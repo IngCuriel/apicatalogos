@@ -1,6 +1,6 @@
 package com.curiel.catalogos.service;
 
-import java.io.ByteArrayInputStream;
+ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -20,6 +21,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,10 +79,7 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
     	}
     	if(movimiento.getDetallesMov() != null){
     		movimientoAntes.setDetallesMov(movimiento.getDetallesMov());
-    	}
-     	 System.out.println(updates);
-    	 System.out.println(movimiento);
-    	 System.out.println(movimientoAntes);
+    	} 
     	 movimientoRepository.save(movimientoAntes);
     	return true;
     }
@@ -89,13 +90,21 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
          Movimiento movimiento=movimientoRepository.getOne(id);
          return convertToDto(movimiento);
     }
+    @Transactional(readOnly=true)
+    public Page<MovimientoDto> getAllPage(Pageable pageable){
+    	List<MovimientoDto> movimientoListDto=new ArrayList<>();
+    	Page<Movimiento> movimientoDtoPage;
+    	movimientoDtoPage = movimientoRepository.findAllByOrderByIdDesc(pageable);
+    	movimientoDtoPage.getContent().forEach(movimientoContent-> movimientoListDto.add(convertToDto(movimientoContent)));
+        return new PageImpl<>(movimientoListDto, pageable, movimientoDtoPage.getTotalElements());
+    }
     
     @Transactional(readOnly=true)
     public List<MovimientoDto> getByClienteProveedor(String clienteProveedor) {
     	List<MovimientoDto> movimientoDtoList=new ArrayList<>();
-        List<Movimiento> movimientos= movimientoRepository.findByClienteProveedor(clienteProveedor);
+        List<Movimiento> movimientos= movimientoRepository.findByClienteProveedorOrderByIdDesc(clienteProveedor);
         MovimientoDto movimientoDto;
-        ProductoDto producto=new ProductoDto();
+        //ProductoDto producto=new ProductoDto();
         for(Movimiento movimiento:movimientos) {
         	movimientoDto = new MovimientoDto();
             movimientoDto.setId(movimiento.getId());

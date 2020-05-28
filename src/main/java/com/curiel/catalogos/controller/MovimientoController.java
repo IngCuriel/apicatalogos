@@ -8,6 +8,10 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +37,16 @@ public class MovimientoController implements GenericController<MovimientoDto, Lo
     @Autowired
     private MovimientoService movimientoService;
 
-    @Override
-    @GetMapping
-    public ResponseEntity<Set<MovimientoDto>> list() {
-         return new ResponseEntity<>(movimientoService.list(),HttpStatus.OK);
+    @GetMapping("")
+    public ResponseEntity<Page<MovimientoDto>> getPageOfListMovimientos(
+											    		@RequestParam(defaultValue = "0") int page,
+											    		@RequestParam(defaultValue = "10") int size,
+											    		@RequestParam(defaultValue = "status") String status,
+											    		@RequestParam(defaultValue = "true") boolean asc
+											       )
+    {
+         Pageable pageable=PageRequest.of(page, size, Sort.by(status));
+         return new ResponseEntity<>(movimientoService.getAllPage(pageable),HttpStatus.OK);
     }
 
     @Override
@@ -59,7 +69,7 @@ public class MovimientoController implements GenericController<MovimientoDto, Lo
     }
     
     @PatchMapping("/{id}")
-    public ResponseEntity<String > updateMovimiento(@RequestBody  Map<String, Object> updates, Long id){
+    public ResponseEntity<String > updateMovimiento(@RequestBody  Map<String, Object> updates,@PathVariable  Long id){
     	movimientoService.updateMovimiento(updates,id);
         return new ResponseEntity<>("Actualizado correctamente",HttpStatus.OK);
    }
@@ -82,6 +92,12 @@ public class MovimientoController implements GenericController<MovimientoDto, Lo
  	   headers.add("Content-Disposition", "attachment; filename=Movimientos.xlsx"); 	   
         return  ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
     }
+
+	@Override
+	public ResponseEntity<Set<MovimientoDto>> list() {
+		// TODO Auto-generated method stub
+		return null;
+	}
  	
      
      

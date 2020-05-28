@@ -1,4 +1,4 @@
-package com.curiel.catalogos.repository;
+ package com.curiel.catalogos.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +22,9 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     Page<Producto> findByNombreContainingAndStatus(String nombre,int status,Pageable pageable);
 
     Page<Producto> findByNombreContainingAndStatusAndVisiblePage(String nombre,int status,Boolean visiblePage,Pageable pageable);
-
-
+    
+    Page<Producto> findByNombreContainingOrDescripcionContainingAndStatusAndVisiblePage(String nombre,String descripcion,int status,Boolean visiblePage,Pageable pageable); 
+    
+    Page<Producto> findByNombreContainingOrDescripcionContainingAndStatus(String nombre,String descripcion,int status,Pageable pageable);   
 
 }

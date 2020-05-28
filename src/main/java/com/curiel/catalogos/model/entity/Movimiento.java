@@ -61,7 +61,6 @@ public class Movimiento {
         this.dateCreated = new Date();
     }
     
-
     @PreUpdate
     public void uploadPersist() {
         this.dateUpdated = new Date();
