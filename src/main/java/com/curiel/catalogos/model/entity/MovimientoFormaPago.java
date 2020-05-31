@@ -26,6 +26,10 @@ public class MovimientoFormaPago implements Serializable{
 	 */
 	private BigDecimal pago;
 	
+	private String descripcionPago;
+	
+	private String comprobantePago;
+
 	@ManyToOne
     private Movimiento movimiento;
 

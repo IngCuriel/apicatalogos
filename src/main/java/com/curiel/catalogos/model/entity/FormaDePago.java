@@ -32,5 +32,8 @@ public class FormaDePago implements Serializable{
 	
  	@OneToMany(fetch = FetchType.EAGER, mappedBy="formaDePago") 
     private Set<MovimientoFormaPago> movimientoFormaPago;
+ 	
+ 	@OneToMany(fetch = FetchType.EAGER, mappedBy="formaDePago")
+ 	private Set<ReferenciaPago> referenciaPago;
     
 }
