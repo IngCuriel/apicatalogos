@@ -1,7 +1,6 @@
 package com.curiel.catalogos.model.entity;
 
 import java.io.Serializable; 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -30,7 +29,10 @@ public class FormaDePago implements Serializable{
 	
 	private String nombre;
 	
- 	@OneToMany(fetch = FetchType.EAGER, mappedBy="formaDePago") 
+ 	@OneToMany(fetch = FetchType.LAZY, mappedBy="formaDePago") 
     private Set<MovimientoFormaPago> movimientoFormaPago;
-    
+ 	
+ 	/*@OneToMany(fetch = FetchType.LAZY, mappedBy="formaDePago")
+ 	private Set<ReferenciaPago> referenciaPago;
+    */
 }

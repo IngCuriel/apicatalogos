@@ -20,7 +20,10 @@ public class MovimientoFormaPagoDto implements Serializable{
 	 
 	private BigDecimal pago;
 	
-	 
+	private String descripcionPago;
+	
+	private String comprobantePago;
+	
     private Movimiento movimiento;
 
     private FormaDePago formaDePago;

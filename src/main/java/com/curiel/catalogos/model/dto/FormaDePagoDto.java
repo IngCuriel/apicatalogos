@@ -18,4 +18,6 @@ public class FormaDePagoDto implements Serializable {
 	private Long id;
     private String nombre;
     private Set<MovimientoFormaPago> movimientoFormaPago;
+    private Set<ReferenciaPagoDto> referenciaPago;
+    
 }
