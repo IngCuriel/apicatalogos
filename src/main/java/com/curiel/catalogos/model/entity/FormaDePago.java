@@ -32,7 +32,7 @@ public class FormaDePago implements Serializable{
  	@OneToMany(fetch = FetchType.LAZY, mappedBy="formaDePago") 
     private Set<MovimientoFormaPago> movimientoFormaPago;
  	
- 	/*@OneToMany(fetch = FetchType.LAZY, mappedBy="formaDePago")
+ 	@OneToMany(fetch = FetchType.LAZY, mappedBy="formaDePago")
  	private Set<ReferenciaPago> referenciaPago;
-    */
+    
 }

@@ -26,7 +26,7 @@ public class MovimientoDto {
     
     private Set<DetalleMovDto> detallesMov;
     
-    private Set<MovimientoFormaPago> movimientoFormaPago;
+    private Set<MovimientoFormaPagoDto> movimientoFormaPago;
     
     BigDecimal total;
     

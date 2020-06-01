@@ -40,13 +40,13 @@ public class Movimiento {
     
     private StatusMovimiento status; 
     
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "detalle_mov_id")
     private Set<DetalleMov> detallesMov;
     
-    
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "movimiento")  
+   /* @OneToMany(fetch = FetchType.EAGER, mappedBy = "movimiento")  
     private Set<MovimientoFormaPago> movimientoFormaPago;
+    */
     
     @Column(name = "fecha_creado")
     @Temporal(TemporalType.TIMESTAMP)

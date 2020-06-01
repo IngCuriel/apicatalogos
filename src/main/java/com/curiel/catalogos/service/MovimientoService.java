@@ -30,10 +30,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.curiel.catalogos.model.dto.DetalleMovDto;
 import com.curiel.catalogos.model.dto.MovimientoDto;
+import com.curiel.catalogos.model.dto.MovimientoFormaPagoDto;
 import com.curiel.catalogos.model.dto.ProductoDto;
 import com.curiel.catalogos.model.entity.DetalleMov;
 import com.curiel.catalogos.model.entity.Movimiento;
+import com.curiel.catalogos.model.entity.MovimientoFormaPago;
 import com.curiel.catalogos.model.entity.Producto;
+import com.curiel.catalogos.repository.MovimientoFormaPagoRepository;
 import com.curiel.catalogos.repository.MovimientoRepository;
 import com.curiel.catalogos.util.GenericService;
 
@@ -42,6 +45,9 @@ import com.curiel.catalogos.util.GenericService;
 public class MovimientoService implements GenericService<MovimientoDto, Movimiento, Long>{
   @Autowired
   private MovimientoRepository movimientoRepository;
+  
+  @Autowired
+  private MovimientoFormaPagoRepository movimientoFormaPagoRepository;
   
   @Autowired
   private ModelMapper modelMapper;
@@ -64,7 +70,17 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
     @Transactional
     public MovimientoDto save(MovimientoDto dto) {
         Movimiento movimiento=movimientoRepository.save(convertToEntity(dto));
-         return convertToDto(movimiento);
+        MovimientoFormaPago movimientoFormaPago;
+        for(MovimientoFormaPagoDto mdpdto:dto.getMovimientoFormaPago()) {
+        	movimientoFormaPago=new MovimientoFormaPago();
+        	movimientoFormaPago.setComprobantePago(mdpdto.getComprobantePago());
+        	movimientoFormaPago.setDescripcionPago(mdpdto.getDescripcionPago());
+        	movimientoFormaPago.setFormaDePago(mdpdto.getFormaDePago());
+        	movimientoFormaPago.setPago(mdpdto.getPago());
+        	movimientoFormaPago.setMovimiento(movimiento);
+        	this.movimientoFormaPagoRepository.save(movimientoFormaPago);
+        } 
+        return convertToDto(movimiento);
     }
     
     @Transactional
@@ -113,7 +129,7 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
             movimientoDto.setDescripcion(movimiento.getDescripcion());
             movimientoDto.setStatus(movimiento.getStatus());
             movimientoDto.setDateUpdated(movimiento.getDateUpdated());
-            Set<DetalleMovDto> detalleMovDtoList=new HashSet();
+            Set<DetalleMovDto> detalleMovDtoList=new LinkedHashSet<>();
             DetalleMovDto detalleMovDto ;
             for(DetalleMov detalle:movimiento.getDetallesMov()) {
             	detalleMovDto =new DetalleMovDto();
@@ -133,6 +149,7 @@ public class MovimientoService implements GenericService<MovimientoDto, Movimien
             	detalleMovDtoList.add(detalleMovDto);
             }
             movimientoDto.setDetallesMov(detalleMovDtoList);
+            movimientoDto.setMovimientoFormaPago(null);
             movimientoDto.setObservacion(movimiento.getObservacion());
             movimientoDto.setTotal(movimiento.getTotal());
             movimientoDtoList.add(movimientoDto);
