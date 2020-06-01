@@ -11,10 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReferenciaPago implements Serializable{
 	
   
@@ -30,7 +34,7 @@ public class ReferenciaPago implements Serializable{
     private String decripcion;
     private String numeroCuenta;
     
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-     private FormaDePago formaDePago;
+    @ManyToOne
+    private FormaDePago formaDePago;
 
 }
