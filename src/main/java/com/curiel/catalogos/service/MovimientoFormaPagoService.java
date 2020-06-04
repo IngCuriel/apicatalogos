@@ -45,8 +45,13 @@ public class MovimientoFormaPagoService implements GenericService<MovimientoForm
 
 	@Override
 	public MovimientoFormaPagoDto save(MovimientoFormaPagoDto dto) {
-		// TODO Auto-generated method stub
-		return null;
+		return convertToDto(movimientoFormaPagoRepository.save(convertToEntity(dto)));
+	}
+	 
+	public MovimientoFormaPagoDto update(MovimientoFormaPagoDto dto) {
+	    MovimientoFormaPago MovimientoFormaPago = movimientoFormaPagoRepository.getOne(dto.getId());
+	    MovimientoFormaPago.setComprobantePago(dto.getComprobantePago());
+		return convertToDto(movimientoFormaPagoRepository.save(MovimientoFormaPago));
 	}
 
 	@Override
