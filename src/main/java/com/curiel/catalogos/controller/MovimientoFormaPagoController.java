@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,9 +50,9 @@ public class MovimientoFormaPagoController implements GenericController<Movimien
 	}
 
 	@Override
+	@PutMapping
 	public ResponseEntity<MovimientoFormaPagoDto> update(MovimientoFormaPagoDto dto) {
-		// TODO Auto-generated method stub
-		return null;
+ 		return new ResponseEntity<MovimientoFormaPagoDto>(movimientoFormaPagoService.save(dto),HttpStatus.OK);
 	}
 
 	@Override

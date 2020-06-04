@@ -34,8 +34,6 @@ public class ProductoController implements GenericController<ProductoDto, Long>{
          return new ResponseEntity<>(productoService.list(),HttpStatus.OK);
     }
     
-
-
     @Override
     @DeleteMapping("/productos/{id}")
     public ResponseEntity<ProductoDto> delete(@PathVariable Long id) {
