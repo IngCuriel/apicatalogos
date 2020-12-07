@@ -47,7 +47,7 @@ public class FileController {
      public ResponseEntity<String> cargarFile(@RequestParam Long sucursalId,@RequestParam("archivo") MultipartFile archivo,UriComponentsBuilder uriComponentsBuilder) throws IOException {
         Sucursal sucursal = sucursalRepository.getOne(sucursalId);
         if(!sucursal.getLogo().isEmpty() || sucursal.getLogo()!=null) {
-            fileService.deleteFile(sucursal.getLogo());
+            //fileService.deleteFile(sucursal.getLogo());
         }
         String nombreArchivo=fileService.copiar(archivo);
         sucursal.setLogo(nombreArchivo);

@@ -5,8 +5,7 @@ import com.curiel.catalogos.emun.TipoUsuario;
 import lombok.Data;
 
 @Data
-public class UsuarioDto { 
-	
+public class UsuarioDto {
 	    private Long id;     
 	    private String username;
 	    private String email;
