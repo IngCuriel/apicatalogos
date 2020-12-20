@@ -27,8 +27,15 @@ public class NotificacionWebhooksService implements GenericService<NotificacionW
 	}
 
 	@Override
-	public void delete(Integer id) {		
+	public void delete(Integer id) {
+		
 	}
+	
+	@Transactional
+ 	public void deleteNotificacion(Long id) {
+ 		notificacionWebhooksRepository.deleteById(id);
+	}
+
 
 	@Transactional
 	@Override
