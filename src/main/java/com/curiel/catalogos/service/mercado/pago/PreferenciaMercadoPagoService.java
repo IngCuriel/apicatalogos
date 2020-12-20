@@ -25,7 +25,7 @@ public class PreferenciaMercadoPagoService {
 			 Preference preference = new Preference();
 			
 			 Item item = new Item();
-			 item.setTitle("Mi productos")
+			 item.setTitle("Mi productos mioS  ")
 			    .setQuantity(1)
 			    .setUnitPrice((float) 75.56);
 			 preference.appendItem(item);
@@ -44,6 +44,7 @@ public class PreferenciaMercadoPagoService {
 		        .setStreetNumber(1004)
 		        .setZipCode("11020"));
 			 
+			 preference.setNotificationUrl("http://apiventascurielqa.herokuapp.com/api/v1/mercado.pago/notificaciones/");
 			 BackUrls backUrls = new BackUrls();
 			 backUrls.setSuccess("https://tiendacuriel.com");
 			 backUrls.setPending("https://tiendacuriel.com/productos");
