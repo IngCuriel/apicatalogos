@@ -11,6 +11,7 @@ public class NotificacionWebhooksDto implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long notificacionId; 
+	
 	private Long id;
 	private Boolean live_mode;
 	private String  type;
