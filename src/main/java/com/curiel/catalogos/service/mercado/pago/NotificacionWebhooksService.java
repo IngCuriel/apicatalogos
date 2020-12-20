@@ -13,7 +13,7 @@ import com.curiel.catalogos.util.GenericService;
 
 @Service
 public class NotificacionWebhooksService implements GenericService<NotificacionWebhooksDto, NotificacionWebhooks, Integer>  {
-
+ 
 	@Autowired
     private ModelMapper modelMapper;
 	
@@ -33,6 +33,7 @@ public class NotificacionWebhooksService implements GenericService<NotificacionW
 	@Transactional
 	@Override
 	public NotificacionWebhooksDto save(NotificacionWebhooksDto dto) {
+		
 		NotificacionWebhooks notifiacaiones = notificacionWebhooksRepository.save(convertToEntity(dto));
 		return convertToDto(notifiacaiones);
 	}
