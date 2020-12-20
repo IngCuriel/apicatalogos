@@ -82,6 +82,12 @@
 		    <artifactId>poi-ooxml</artifactId>
 		    <version>4.1.2</version>
       </dependency>
+      <!--SDK mercado pago https://www.mercadopago.com.mx/developers/es/guides/online-payments/checkout-pro/previous-requirements/  -->
+      <dependency>
+            <groupId> com.mercadopago </groupId>
+            <artifactId> dx-java </artifactId>
+            <version> 1.0.33 </version>
+      </dependency>
 	</dependencies>
 
 	<build>
