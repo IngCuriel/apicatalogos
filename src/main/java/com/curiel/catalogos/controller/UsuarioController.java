@@ -31,7 +31,7 @@ public class UsuarioController implements GenericController<UsuarioDto, Long> {
 
 	@Override
 	@DeleteMapping("/{id}")
-	public ResponseEntity<UsuarioDto> delete(Long id) {
+	public ResponseEntity<UsuarioDto> delete(@PathVariable Long id) {
 		usuarioService.delete(id);
 		return new ResponseEntity<>(null,HttpStatus.OK);
 	}

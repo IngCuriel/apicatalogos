@@ -31,7 +31,7 @@ public class UsuarioService implements GenericService<UsuarioDto, Usuario, Long>
 	}
 
 	@Override
- 	@Transactional(readOnly=true)
+ 	@Transactional
 	public void delete(Long id) {
 		usuarioRepository.deleteById(id);
 	}
@@ -53,6 +53,9 @@ public class UsuarioService implements GenericService<UsuarioDto, Usuario, Long>
 	@Transactional(readOnly=true)
 	public UsuarioDto getByEmail(String email) {
 		Usuario usuario=usuarioRepository.findByEmail(email);
+		if (usuario==null) {
+			return new UsuarioDto();
+		}
  		return convertToDto(usuario);
 	}
 

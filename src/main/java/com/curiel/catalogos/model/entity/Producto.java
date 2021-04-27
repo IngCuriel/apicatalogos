@@ -3,6 +3,7 @@ package com.curiel.catalogos.model.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -26,6 +27,9 @@ public class Producto extends GenericEntity implements Serializable{
     
     String nombre;
     
+    @Column(unique=true)
+    String codigoBarras;
+    
     String descripcion;
     
     BigDecimal precio;
@@ -35,6 +39,10 @@ public class Producto extends GenericEntity implements Serializable{
     String imagen;
     
     Boolean visiblePage;
+    /**
+     * Palabras claves para su busqueda
+     */
+    String palabrasClave;
     
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursal;
@@ -44,5 +52,11 @@ public class Producto extends GenericEntity implements Serializable{
     
     @OneToOne(fetch = FetchType.EAGER)
     private UnidadMedida unidadMedida;
+   
+    BigDecimal existencias;
+    
+    BigDecimal apartados;
+    
+    String observaciones;
    
 }
