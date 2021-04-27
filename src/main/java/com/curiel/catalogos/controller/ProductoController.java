@@ -59,6 +59,11 @@ public class ProductoController implements GenericController<ProductoDto, Long>{
          return new ResponseEntity<>(productoService.getById(id),HttpStatus.OK);
     }
     
+    @GetMapping("/productos/buscar")
+    public ResponseEntity<ProductoDto> getByCodigoBarras(@RequestParam String codigoBarras) {
+         return new ResponseEntity<>(productoService.getByCodigoBarras(codigoBarras),HttpStatus.OK);
+    }
+    
     @GetMapping("/productos/page")
     public ResponseEntity<Page<ProductoDto>> getPageOfProductosByStatus(
 				    		@RequestParam int status,
