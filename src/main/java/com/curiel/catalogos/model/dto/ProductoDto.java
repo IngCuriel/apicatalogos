@@ -21,6 +21,7 @@ public class ProductoDto extends GenericDto implements Serializable{
     private static final long serialVersionUID = -1;
     String nombre;
     String descripcion;
+    String codigoBarras;
     BigDecimal precio;
     BigDecimal costo;
     String imagen;

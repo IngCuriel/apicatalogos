@@ -36,6 +36,12 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
          return productoDtolist;
     }
 
+    @Transactional(readOnly=true)
+    public ProductoDto getByCodigoBarras(String codigoBarras) {
+         Producto producto=productoRepository.findCodigoBarras(codigoBarras);
+         return convertToDto(producto);
+    }
+    
     @Override
     @Transactional
     public void delete(Long id) {
@@ -125,10 +131,13 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
     	ProductoDto dto=new ProductoDto();
     	dto.setId(entity.getId());
     	dto.setNombre(entity.getNombre());
+    	dto.setCodigoBarras(entity.getCodigoBarras());
     	dto.setDescripcion(entity.getDescripcion());
     	dto.setPrecio(entity.getPrecio());
     	dto.setImagen(entity.getImagen());
     	dto.setVisiblePage(entity.getVisiblePage());
+    	dto.setExistencias(entity.getExistencias());
+    	dto.setApartados(entity.getApartados());
         return dto;
     }
   
