@@ -38,7 +38,7 @@ public class ProductoService implements GenericService<ProductoDto, Producto, Lo
 
     @Transactional(readOnly=true)
     public ProductoDto getByCodigoBarras(String codigoBarras) {
-         Producto producto=productoRepository.findCodigoBarras(codigoBarras);
+         Producto producto=productoRepository.findByCodigoBarras(codigoBarras);
          return convertToDto(producto);
     }
     
