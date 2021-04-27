@@ -27,6 +27,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     
     Page<Producto> findByNombreContainingOrDescripcionContainingAndStatus(String nombre,String descripcion,int status,Pageable pageable);   
     
-    Producto findCodigoBarras(String codigoBarras);
+    Producto findByCodigoBarras(String codigoBarras);
 
 }
